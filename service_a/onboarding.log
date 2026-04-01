@@ -1,0 +1,116 @@
+2026-03-24 14:50:49  INFO      main – ============================================================
+2026-03-24 14:50:49  INFO      main –   Automated Student Onboarding Engine  –  Starting
+2026-03-24 14:50:49  INFO      main – ============================================================
+2026-03-24 14:50:49  INFO      main – [STEP 1] Starting mock REST API (Service B) …
+2026-03-24 14:50:49  INFO      api_mock – Mock API server starting on http://127.0.0.1:5000 …
+2026-03-24 14:50:49  INFO      werkzeug – [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-24 14:50:49  INFO      werkzeug – [33mPress CTRL+C to quit[0m
+2026-03-24 14:50:50  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 14:50:50] "GET /health HTTP/1.1" 200 -
+2026-03-24 14:50:50  INFO      api_mock – Mock API server is ready ✔
+2026-03-24 14:50:50  INFO      main – [STEP 2] Starting directory watcher on data/input/ …
+2026-03-24 14:50:50  INFO      watcher – Watchdog observer started → monitoring 'data/input'
+2026-03-24 14:50:51  INFO      main – [STEP 3] Generating student CSV …
+2026-03-24 14:50:51  INFO      generator – CSV generated → data/input/students.csv  |  total=120  valid≈96  invalid≈18  duplicates≈6
+2026-03-24 14:50:51  INFO      watcher – New CSV detected (watchdog): data\input\students.csv
+2026-03-24 14:50:51  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 14:50:51  INFO      main – [STEP 3] CSV ready at: data/input/students.csv
+2026-03-24 14:50:51  INFO      main – [STEP 4] Waiting for watcher to detect and process the file …
+2026-03-24 14:50:51  INFO      main – Pipeline triggered for: data\input\students.csv
+2026-03-24 14:50:51  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 14:50:51  INFO      main – [STEP] Validating records …
+2026-03-24 14:50:51  INFO      validator – Valid records saved → data/output/valid_data.csv
+2026-03-24 14:50:51  INFO      validator – Invalid records saved → data/output/invalid_data.csv
+2026-03-24 14:50:51  INFO      validator – Validation summary → total=120  valid=96  invalid=24
+2026-03-24 14:50:51  INFO      main – [RESULT] total=120  valid=96  invalid=24
+2026-03-24 14:50:51  INFO      main – [STEP] Sending valid records to mock API …
+2026-03-24 14:50:51  INFO      sender – Starting to send 96 record(s) in batches of 30 …
+2026-03-24 14:50:51  INFO      api_mock – POST /students – received 30 record(s) | total stored: 30
+2026-03-24 14:50:51  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 14:50:51] "[35m[1mPOST /students HTTP/1.1[0m" 201 -
+2026-03-24 14:50:51  INFO      sender – Batch sent ✔  size=30 | total_stored=30
+2026-03-24 14:50:51  INFO      api_mock – POST /students – received 30 record(s) | total stored: 60
+2026-03-24 14:50:51  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 14:50:51] "[35m[1mPOST /students HTTP/1.1[0m" 201 -
+2026-03-24 14:50:51  INFO      sender – Batch sent ✔  size=30 | total_stored=60
+2026-03-24 14:50:51  INFO      api_mock – POST /students – received 30 record(s) | total stored: 90
+2026-03-24 14:50:51  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 14:50:51] "[35m[1mPOST /students HTTP/1.1[0m" 201 -
+2026-03-24 14:50:51  INFO      sender – Batch sent ✔  size=30 | total_stored=90
+2026-03-24 14:50:51  INFO      api_mock – POST /students – received 6 record(s) | total stored: 96
+2026-03-24 14:50:51  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 14:50:51] "[35m[1mPOST /students HTTP/1.1[0m" 201 -
+2026-03-24 14:50:51  INFO      sender – Batch sent ✔  size=6 | total_stored=96
+2026-03-24 14:50:51  INFO      sender – Send complete → sent=96/96  batches_ok=4  batches_failed=0
+2026-03-24 14:50:51  INFO      main – [RESULT] sent=96/96  batches_ok=4  batches_failed=0
+2026-03-24 14:50:51  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 14:50:51  INFO      main – Pipeline complete ✔
+2026-03-24 14:50:51  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 14:50:51  INFO      main – 
+2026-03-24 14:50:51  INFO      main – All done!  Check:
+2026-03-24 14:50:51  INFO      main –   data/output/valid_data.csv   – clean records
+2026-03-24 14:50:51  INFO      main –   data/output/invalid_data.csv – rejected records
+2026-03-24 14:50:51  INFO      main –   onboarding.log               – full run log
+2026-03-24 14:50:51  INFO      main – 
+2026-03-24 15:02:22  INFO      main – ============================================================
+2026-03-24 15:02:22  INFO      main –   Automated Student Onboarding Engine  –  Starting
+2026-03-24 15:02:22  INFO      main – ============================================================
+2026-03-24 15:02:22  INFO      main – [STEP 1] Starting mock REST API (Service B) …
+2026-03-24 15:02:22  INFO      api_mock – Mock API server starting on http://127.0.0.1:5000 …
+2026-03-24 15:02:22  INFO      werkzeug – [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-24 15:02:22  INFO      werkzeug – [33mPress CTRL+C to quit[0m
+2026-03-24 15:02:23  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 15:02:23] "GET /health HTTP/1.1" 200 -
+2026-03-24 15:02:23  INFO      api_mock – Mock API server is ready ✔
+2026-03-24 15:02:23  INFO      main – [STEP 2] Starting directory watcher on data/input/ …
+2026-03-24 15:02:23  INFO      watcher – Watchdog observer started → monitoring 'data/input'
+2026-03-24 15:02:24  INFO      main – [STEP 3] Generating student CSV …
+2026-03-24 15:02:24  INFO      generator – CSV generated → data/input/students.csv  |  total=120  valid≈96  invalid≈18  duplicates≈6
+2026-03-24 15:02:24  INFO      main – [STEP 3] CSV ready at: data/input/students.csv
+2026-03-24 15:02:24  INFO      main – [STEP 4] Waiting for watcher to detect and process the file …
+2026-03-24 15:04:45  INFO      main – ============================================================
+2026-03-24 15:04:45  INFO      main –   Automated Student Onboarding Engine  –  Starting
+2026-03-24 15:04:45  INFO      main – ============================================================
+2026-03-24 15:04:45  INFO      main – [STEP 1] Starting mock REST API (Service B) …
+2026-03-24 15:04:45  INFO      api_mock – Mock API server starting on http://127.0.0.1:5000 …
+2026-03-24 15:04:45  INFO      werkzeug – [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-24 15:04:45  INFO      werkzeug – [33mPress CTRL+C to quit[0m
+2026-03-24 15:04:45  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 15:04:45] "GET /health HTTP/1.1" 200 -
+2026-03-24 15:04:45  INFO      api_mock – Mock API server is ready ✔
+2026-03-24 15:04:45  INFO      main – [STEP 2] Starting directory watcher on data/input/ …
+2026-03-24 15:04:46  INFO      watcher – Watchdog observer started → monitoring 'data/input'
+2026-03-24 15:04:46  INFO      main – [STEP 3] Generating student CSV …
+2026-03-24 15:04:46  INFO      watcher – New CSV detected (watchdog): data\input\students.csv
+2026-03-24 15:04:46  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 15:04:46  INFO      generator – CSV generated → data/input/students.csv  |  total=120  valid≈96  invalid≈18  duplicates≈6
+2026-03-24 15:04:46  INFO      main – Pipeline triggered for: data\input\students.csv
+2026-03-24 15:04:46  INFO      main – [STEP 3] CSV ready at: data/input/students.csv
+2026-03-24 15:04:46  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 15:04:46  INFO      main – [STEP] Validating records …
+2026-03-24 15:04:46  INFO      main – [STEP 4] Waiting for watcher to detect and process the file …
+2026-03-24 15:04:47  INFO      validator – Valid records saved → data/output/valid_data.csv
+2026-03-24 15:04:47  INFO      validator – Invalid records saved → data/output/invalid_data.csv
+2026-03-24 15:04:47  INFO      validator – Validation summary → total=120  valid=96  invalid=24
+2026-03-24 15:04:47  INFO      main – [RESULT] total=120  valid=96  invalid=24
+2026-03-24 15:04:47  INFO      main – [STEP] Sending valid records to mock API …
+2026-03-24 15:04:47  INFO      sender – Starting to send 96 record(s) in batches of 30 …
+2026-03-24 15:04:47  INFO      api_mock – POST /students – received 30 record(s) | total stored: 30
+2026-03-24 15:04:47  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 15:04:47] "[35m[1mPOST /students HTTP/1.1[0m" 201 -
+2026-03-24 15:04:47  INFO      sender – Batch sent ✔  size=30 | total_stored=30
+2026-03-24 15:04:47  INFO      api_mock – POST /students – received 30 record(s) | total stored: 60
+2026-03-24 15:04:47  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 15:04:47] "[35m[1mPOST /students HTTP/1.1[0m" 201 -
+2026-03-24 15:04:47  INFO      sender – Batch sent ✔  size=30 | total_stored=60
+2026-03-24 15:04:47  INFO      api_mock – POST /students – received 30 record(s) | total stored: 90
+2026-03-24 15:04:47  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 15:04:47] "[35m[1mPOST /students HTTP/1.1[0m" 201 -
+2026-03-24 15:04:47  INFO      sender – Batch sent ✔  size=30 | total_stored=90
+2026-03-24 15:04:47  INFO      api_mock – POST /students – received 6 record(s) | total stored: 96
+2026-03-24 15:04:47  INFO      werkzeug – 127.0.0.1 - - [24/Mar/2026 15:04:47] "[35m[1mPOST /students HTTP/1.1[0m" 201 -
+2026-03-24 15:04:47  INFO      sender – Batch sent ✔  size=6 | total_stored=96
+2026-03-24 15:04:47  INFO      sender – Send complete → sent=96/96  batches_ok=4  batches_failed=0
+2026-03-24 15:04:47  INFO      main – [RESULT] sent=96/96  batches_ok=4  batches_failed=0
+2026-03-24 15:04:47  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 15:04:47  INFO      main – Pipeline complete ✔
+2026-03-24 15:04:47  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-24 15:04:47  INFO      main – 
+2026-03-24 15:04:47  INFO      main – All done!  Check:
+2026-03-24 15:04:47  INFO      main –   data/output/valid_data.csv   – clean records
+2026-03-24 15:04:47  INFO      main –   data/output/invalid_data.csv – rejected records
+2026-03-24 15:04:47  INFO      main –   onboarding.log               – full run log
+2026-03-24 15:04:47  INFO      main – 

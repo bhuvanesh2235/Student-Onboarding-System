@@ -1,0 +1,25 @@
+id,name,email,age,validation_errors
+102,Carol Brown,spaces in@mail.com,22,invalid_email
+100,David Lewis,nodomain,32,invalid_email
+28,Yara Taylor,yara.taylor907@gmail.com,34,duplicate_id
+108,Vince Clark,vince.clark744@gmail.com,twenty,invalid_age
+110,Grace Walker,spaces in@mail.com,24,invalid_email
+106,Mia Young,double@@test.com,17,invalid_email
+112,Iris Walker,,18,invalid_email
+99,Eve Hall,eve.hall132@yahoo.com,twenty,invalid_age
+105,Vince Garcia,vince.garcia864@outlook.com,-1,invalid_age
+34,Uma Patel,uma.patel204@yahoo.com,34,duplicate_id
+35,Tina Jones,tina.jones919@example.org,19,duplicate_id
+104,Mia Wilson,mia.wilson735@outlook.com,,invalid_age
+98,Grace Smith,,35,invalid_email
+31,Wendy Harris,wendy.harris860@gmail.com,26,duplicate_id
+109,Sam Thomas,abc@,29,invalid_email
+101,Alice Wilson,alice.wilson207@example.org,,invalid_age
+114,,carol.lewis611@example.org,28,invalid_name
+111,Kara Martinez,abc@,27,invalid_email
+113,Frank Evans,frank.evans535@gmail.com,abc,invalid_age
+97,Mia Hall,mia.hall912@yahoo.com,,invalid_age
+102,Zane Roberts,zane.roberts420@yahoo.com,24,duplicate_id
+87,Alice Clark,alice.clark727@gmail.com,22,duplicate_id
+103,Rose Harris,rose.harris138@yahoo.com,,invalid_age
+107,Yara Jones,double@@test.com,35,invalid_email

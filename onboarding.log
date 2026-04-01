@@ -1,0 +1,49 @@
+2026-03-29 22:26:08  INFO      main – ============================================================
+2026-03-29 22:26:08  INFO      main –   Automated Student Onboarding Engine  –  Starting
+2026-03-29 22:26:08  INFO      main – ============================================================
+2026-03-29 22:26:08  INFO      main – [STEP 1] Starting directory watcher on data/input/ …
+2026-03-29 22:26:08  INFO      watcher – Watchdog observer started → monitoring 'data/input'
+2026-03-29 22:26:09  INFO      main – [STEP 2] Generating student CSV …
+2026-03-29 22:26:09  INFO      watcher – New CSV detected (watchdog): data\input\students.csv
+2026-03-29 22:26:09  INFO      generator – CSV generated → data/input/students.csv  |  total=120  valid≈96  invalid≈18  duplicates≈6
+2026-03-29 22:26:09  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-29 22:26:09  INFO      main – [STEP 2] CSV ready at: data/input/students.csv
+2026-03-29 22:26:09  INFO      main – [STEP 3] Waiting for watcher to detect and process the file …
+2026-03-29 22:26:09  INFO      main – Pipeline triggered for: data\input\students.csv
+2026-03-29 22:26:09  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-29 22:26:09  INFO      main – [STEP] Validating records …
+2026-03-29 22:26:09  INFO      validator – Valid records saved → data/output/valid_data.csv
+2026-03-29 22:26:09  INFO      validator – Invalid records saved → data/output/invalid_data.csv
+2026-03-29 22:26:09  INFO      validator – Validation summary → total=120  valid=96  invalid=24
+2026-03-29 22:26:09  INFO      main – [RESULT] total=120  valid=96  invalid=24
+2026-03-29 22:26:09  INFO      main – [STEP] Sending valid records to Spring Boot API …
+2026-03-29 22:26:09  INFO      sender – [SEND] Starting → 96 record(s) in batches of 30 to http://localhost:8080/students/bulk
+2026-03-29 22:26:09  INFO      sender – [SEND] Attempt 1/4 – POSTing 30 record(s) to http://localhost:8080/students/bulk …
+2026-03-29 22:26:10  INFO      sender – [SEND] Batch sent ✔  size=30  HTTP=201  stored=30
+2026-03-29 22:26:10  INFO      sender – [SEND] Attempt 1/4 – POSTing 30 record(s) to http://localhost:8080/students/bulk …
+2026-03-29 22:26:10  INFO      sender – [SEND] Batch sent ✔  size=30  HTTP=201  stored=30
+2026-03-29 22:26:10  INFO      sender – [SEND] Attempt 1/4 – POSTing 30 record(s) to http://localhost:8080/students/bulk …
+2026-03-29 22:26:10  INFO      sender – [SEND] Batch sent ✔  size=30  HTTP=201  stored=30
+2026-03-29 22:26:10  INFO      sender – [SEND] Attempt 1/4 – POSTing 6 record(s) to http://localhost:8080/students/bulk …
+2026-03-29 22:26:10  INFO      sender – [SEND] Batch sent ✔  size=6  HTTP=201  stored=6
+2026-03-29 22:26:10  INFO      sender – Send complete → sent=96/96  batches_ok=4  batches_failed=0
+2026-03-29 22:26:10  INFO      main – [RESULT] sent=96/96  batches_ok=4  batches_failed=0
+2026-03-29 22:26:10  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-29 22:26:10  INFO      main – Pipeline complete ✔
+2026-03-29 22:26:10  INFO      main – ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-03-29 22:26:10  INFO      main – 
+2026-03-29 22:26:10  INFO      main – All done!  Check:
+2026-03-29 22:26:10  INFO      main –   data/output/valid_data.csv   – clean records
+2026-03-29 22:26:10  INFO      main –   data/output/invalid_data.csv – rejected records
+2026-03-29 22:26:10  INFO      main –   onboarding.log               – full run log
+2026-03-29 22:26:10  INFO      main – 
+2026-03-29 22:49:00  INFO      main – ============================================================
+2026-03-29 22:49:00  INFO      main –   Automated Student Onboarding Engine  –  Starting
+2026-03-29 22:49:00  INFO      main – ============================================================
+2026-03-29 22:49:00  INFO      main – [STEP 1] Starting directory watcher on data/input/ …
+2026-03-29 22:49:00  INFO      watcher – Watchdog observer started → monitoring 'data/input'
+2026-03-29 22:49:01  INFO      main – [STEP 2] Generating student CSV …
+2026-03-29 22:49:01  INFO      generator – CSV generated → data/input/students.csv  |  total=120  valid≈96  invalid≈18  duplicates≈6
+2026-03-29 22:49:01  INFO      main – [STEP 2] CSV ready at: data/input/students.csv
+2026-03-29 22:49:01  INFO      main – [STEP 3] Waiting for watcher to detect and process the file …
+2026-03-29 22:50:01  ERROR     main – Pipeline did not complete within 60 seconds.

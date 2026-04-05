@@ -8,6 +8,7 @@ It consists of:
 - ☕ Spring Boot Backend API (Service B)
 - ⚛️ React Frontend
 - 🐘 PostgreSQL Database
+- 🐳 Docker Containerization (Full System Orchestration)
 
 ---
 
@@ -31,6 +32,7 @@ CSV Generation → Data Validation → REST API → Database → UI Display
 | Backend        | Spring Boot, JPA, Hibernate              |
 | Frontend       | React                                    |
 | Database       | PostgreSQL                               |
+| DevOps         | Docker, Docker Compose, Nginx            |
 
 ---
 
@@ -97,12 +99,41 @@ CSV Generation → Data Validation → REST API → Database → UI Display
 
 ---
 
+## 🐳 Docker & Containerization
+
+### Overview
+The entire system is containerized using Docker and orchestrated via Docker Compose.
+
+### Services:
+- **postgres** → Database container
+- **backend** → Spring Boot service
+- **python** → Data pipeline (batch execution)
+- **frontend** → React app served via Nginx
+
+### Key Features:
+- No hardcoded `localhost` (uses Docker service names)
+- Environment variable-based configuration
+- Nginx reverse proxy for frontend → backend communication
+- Health checks and proper startup order
+- Fully isolated and scalable architecture
+
+### Architecture Flow:
+Postgres → Backend → Python Pipeline  
+Backend → Frontend (via Nginx proxy `/api`)
+
+---
+
+## 🌐 Access (Docker)
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8080/students
+  
 ## ✅ Key Highlights
 - Automated data pipeline with validation
 - Batch processing with retry logic
 - Scalable REST API with pagination
 - Full CRUD operations
 - Interactive frontend UI
+- Docker-based microservices architecture
 - End-to-end system integration
 
 ## 🎯 Conclusion
@@ -113,3 +144,6 @@ This project simulates a real-world onboarding system combining:
 - Backend Development
 - Frontend UI
 - Database Integration
+- DevOps (Docker & Containerization)
+
+It demonstrates strong full-stack development and system design skills.

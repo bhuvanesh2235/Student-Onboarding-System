@@ -1,0 +1,9 @@
+# Spring Boot – exclude local build artifacts; Maven wrapper downloads fresh deps
+target/
+*.class
+*.log
+.git/
+.gitignore
+*.md
+.vscode/
+.idea/

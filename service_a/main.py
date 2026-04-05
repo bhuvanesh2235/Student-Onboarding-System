@@ -22,6 +22,9 @@ import logging
 import threading
 import time
 
+# Backend URL – overridden by BACKEND_URL env var so Docker routing works
+_BACKEND_URL = os.environ.get("BACKEND_URL", "http://backend:8080/students/bulk")
+
 # ── ensure src/ is on the import path ─────────────────────────────────────────
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
@@ -67,9 +70,10 @@ def _process_file(csv_path: str):
     # Step: Send valid records to Spring Boot API ────────────────────
     if summary["valid"] > 0:
         logger.info("[STEP] Sending valid records to Spring Boot API …")
+        logger.info("[STEP] Target URL: %s", _BACKEND_URL)
         send_summary = send_valid_data(
             csv_path  = "data/output/valid_data.csv",
-            api_url   = "http://localhost:8080/students/bulk",
+            api_url   = _BACKEND_URL,
             batch_size= 30,
         )
         logger.info(

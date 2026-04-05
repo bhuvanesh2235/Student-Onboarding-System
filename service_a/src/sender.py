@@ -1,8 +1,11 @@
 """
 sender.py
 Reads valid_data.csv and POSTs student records to the Spring Boot API
-(http://localhost:8080/students/bulk) in configurable-size batches
-with retry logic.
+in configurable-size batches with retry logic.
+
+The backend URL is resolved from the BACKEND_URL environment variable
+(default: http://backend:8080/students/bulk) so that Docker service-name
+routing works correctly without any hardcoded 'localhost' references.
 
 Notes
 -----
@@ -13,16 +16,19 @@ Notes
 """
 
 import csv
+import os
 import time
 import logging
 import requests
 
 logger = logging.getLogger(__name__)
 
-API_URL    = "http://localhost:8080/students/bulk"
-BATCH_SIZE = 30      # records per request
-MAX_RETRIES = 3      # number of additional attempts after first failure
-RETRY_DELAY = 2.0    # seconds to wait between retries
+# Resolved from environment so Docker service-name routing works correctly.
+# Override via:  BACKEND_URL=http://backend:8080/students/bulk
+API_URL     = os.environ.get("BACKEND_URL", "http://backend:8080/students/bulk")
+BATCH_SIZE  = 30      # records per request
+MAX_RETRIES = 3       # number of additional attempts after first failure
+RETRY_DELAY = 2.0     # seconds to wait between retries
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────

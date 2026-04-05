@@ -1,10 +1,12 @@
 /**
  * api.js
  * Centralised service layer for the Student Onboarding API.
- * Base URL: http://localhost:8080
+ *
+ * In Docker: nginx proxies /api → http://backend:8080, so BASE_URL = "/api".
+ * Locally:   set REACT_APP_API_BASE_URL=http://localhost:8080 in .env.
  */
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || "/api";
 
 /** Shared JSON headers */
 const JSON_HEADERS = { "Content-Type": "application/json" };

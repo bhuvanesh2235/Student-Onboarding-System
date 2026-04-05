@@ -1,0 +1,107 @@
+# ═══════════════════════════════════════════════════════════════════
+#  Student Onboarding System – Docker Compose
+#
+#  Services
+#  ─────────
+#  postgres   – PostgreSQL 16 (port 5432)
+#  backend    – Spring Boot student-service (port 8080)
+#  python     – Python pipeline / service_a (no external port)
+#  frontend   – React + nginx (port 3000)
+#
+#  All services communicate via Docker service names on the
+#  "onboarding-net" bridge network. No hardcoded localhost.
+#
+#  Run:  docker-compose up --build
+# ═══════════════════════════════════════════════════════════════════
+
+services:
+
+  # ── 1. PostgreSQL ──────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: onboarding-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       tododb
+      POSTGRES_USER:     postgres
+      POSTGRES_PASSWORD: bhuvanesh181
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - onboarding-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tododb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # ── 2. Spring Boot Backend ─────────────────────────────────────
+  backend:
+    build:
+      context: ./student-service
+      dockerfile: Dockerfile
+    container_name: onboarding-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Override application.properties placeholders
+      SPRING_DATASOURCE_URL:      jdbc:postgresql://postgres:5432/tododb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: bhuvanesh181
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    networks:
+      - onboarding-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || wget -qO- http://localhost:8080/students || exit 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # ── 3. Python Pipeline (service_a) ─────────────────────────────
+  python:
+    build:
+      context: ./service_a
+      dockerfile: Dockerfile
+    container_name: onboarding-python
+    restart: "no"            # Run-to-completion: exit 0 when pipeline finishes
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      # Points to the Spring Boot container via Docker service name
+      BACKEND_URL: http://backend:8080/students/bulk
+    networks:
+      - onboarding-net
+
+  # ── 4. React Frontend (nginx) ──────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: onboarding-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    networks:
+      - onboarding-net
+
+# ── Named volumes ───────────────────────────────────────────────
+volumes:
+  postgres_data:
+    driver: local
+
+# ── Shared network ──────────────────────────────────────────────
+networks:
+  onboarding-net:
+    driver: bridge

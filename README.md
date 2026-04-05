@@ -61,7 +61,6 @@ CSV Generation → Data Validation → REST API → Database → UI Display
 - Bulk insert endpoint
 - Pagination support
 - Validation using DTOs
-- Swagger UI for API docs
 
 ### APIs:
 - `POST /students/bulk` → Bulk insert

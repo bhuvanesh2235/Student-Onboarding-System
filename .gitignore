@@ -1,0 +1,30 @@
+# ── Environment variables (secrets) ─────────────────────────────────
+# Never commit real .env files. Use .env.example as the reference template.
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ── OS / Editor ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ── Logs ─────────────────────────────────────────────────────────────
+*.log
+
+# ── Python ───────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+.pytest_cache/
+
+# ── Docker ───────────────────────────────────────────────────────────
+# (docker-compose.yml is committed; only local override files are excluded)
+docker-compose.override.yml

@@ -1,6 +1,9 @@
 # ═══════════════════════════════════════════════════════════════════
 #  Student Onboarding System – Docker Compose
 #
+#  Sensitive credentials are loaded from the root .env file.
+#  Copy .env.example → .env and set your own values before running.
+#
 #  Services
 #  ─────────
 #  postgres   – PostgreSQL 16 (port 5432)
@@ -22,17 +25,17 @@ services:
     container_name: onboarding-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB:       tododb
-      POSTGRES_USER:     postgres
-      POSTGRES_PASSWORD: bhuvanesh181
+      POSTGRES_DB:       ${POSTGRES_DB}
+      POSTGRES_USER:     ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - onboarding-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d tododb"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -50,12 +53,12 @@ services:
         condition: service_healthy
     environment:
       # Override application.properties placeholders
-      SPRING_DATASOURCE_URL:      jdbc:postgresql://postgres:5432/tododb
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: bhuvanesh181
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_URL:      ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO:-update}
     ports:
-      - "8080:8080"
+      - "${BACKEND_PORT:-8080}:8080"
     networks:
       - onboarding-net
     healthcheck:
@@ -77,7 +80,12 @@ services:
         condition: service_healthy
     environment:
       # Points to the Spring Boot container via Docker service name
-      BACKEND_URL: http://backend:8080/students/bulk
+      BACKEND_URL:              ${BACKEND_URL}
+      PIPELINE_BATCH_SIZE:      ${PIPELINE_BATCH_SIZE:-30}
+      PIPELINE_MAX_RETRIES:     ${PIPELINE_MAX_RETRIES:-3}
+      PIPELINE_RETRY_DELAY:     ${PIPELINE_RETRY_DELAY:-2.0}
+      PIPELINE_TOTAL_STUDENTS:  ${PIPELINE_TOTAL_STUDENTS:-120}
+      PIPELINE_INVALID_RATIO:   ${PIPELINE_INVALID_RATIO:-0.15}
     networks:
       - onboarding-net
 
@@ -92,7 +100,7 @@ services:
       backend:
         condition: service_healthy
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT:-3000}:3000"
     networks:
       - onboarding-net
 

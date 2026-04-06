@@ -7,13 +7,13 @@ Execution order
 2. Generate a CSV file with synthetic student data → data/input/
 3. Watcher detects the new file and triggers the pipeline:
    a. Validate data  → data/output/valid_data.csv / invalid_data.csv
-   b. Send ONLY valid data to the Spring Boot API at
-      http://localhost:8080/students/bulk  (batches of 30, retry ×3)
+   b. Send ONLY valid data to the Spring Boot API (batches of 30, retry ×3)
 
 Pre-requisites
 --------------
 * PostgreSQL running and configured in Spring Boot application.properties
-* Spring Boot student-service running on port 8080
+* Spring Boot student-service running (URL set via BACKEND_URL env var)
+* Copy .env.example → .env and fill in values before running locally
 """
 
 import sys
@@ -22,8 +22,17 @@ import logging
 import threading
 import time
 
-# Backend URL – overridden by BACKEND_URL env var so Docker routing works
-_BACKEND_URL = os.environ.get("BACKEND_URL", "http://backend:8080/students/bulk")
+# ── Load .env file (for local dev; Docker injects env vars directly) ──────────
+from dotenv import load_dotenv
+load_dotenv()  # reads service_a/.env (or the nearest .env up the tree)
+
+# ── Pipeline configuration from environment variables ─────────────────────────
+_BACKEND_URL        = os.environ.get("BACKEND_URL",             "http://backend:8080/students/bulk")
+_BATCH_SIZE         = int(os.environ.get("PIPELINE_BATCH_SIZE",       "30"))
+_MAX_RETRIES        = int(os.environ.get("PIPELINE_MAX_RETRIES",      "3"))
+_RETRY_DELAY        = float(os.environ.get("PIPELINE_RETRY_DELAY",    "2.0"))
+_TOTAL_STUDENTS     = int(os.environ.get("PIPELINE_TOTAL_STUDENTS",   "120"))
+_INVALID_RATIO      = float(os.environ.get("PIPELINE_INVALID_RATIO",  "0.15"))
 
 # ── ensure src/ is on the import path ─────────────────────────────────────────
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
@@ -44,6 +53,7 @@ logging.basicConfig(
     ],
 )
 logger = logging.getLogger("main")
+
 
 # ── pipeline event ────────────────────────────────────────────────────────────
 _pipeline_done = threading.Event()
@@ -74,7 +84,7 @@ def _process_file(csv_path: str):
         send_summary = send_valid_data(
             csv_path  = "data/output/valid_data.csv",
             api_url   = _BACKEND_URL,
-            batch_size= 30,
+            batch_size= _BATCH_SIZE,
         )
         logger.info(
             "[RESULT] sent=%d/%d  batches_ok=%d  batches_failed=%d",
@@ -121,8 +131,8 @@ def main():
     logger.info("[STEP 2] Generating student CSV …")
     csv_path = generate_students(
         output_path  = "data/input/students.csv",
-        total        = 120,
-        invalid_ratio= 0.15,
+        total        = _TOTAL_STUDENTS,
+        invalid_ratio= _INVALID_RATIO,
     )
     logger.info("[STEP 2] CSV ready at: %s", csv_path)
 

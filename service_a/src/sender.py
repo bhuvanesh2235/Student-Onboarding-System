@@ -3,16 +3,15 @@ sender.py
 Reads valid_data.csv and POSTs student records to the Spring Boot API
 in configurable-size batches with retry logic.
 
-The backend URL is resolved from the BACKEND_URL environment variable
-(default: http://backend:8080/students/bulk) so that Docker service-name
-routing works correctly without any hardcoded 'localhost' references.
+All sensitive/configurable values are loaded from environment variables
+(see service_a/.env for local dev, docker-compose.yml for containers).
 
 Notes
 -----
 - The 'id' field is intentionally stripped before sending; Spring Boot
   auto-generates IDs via the database sequence.
-- Batch size: 30 records per request.
-- Retry logic: up to 3 attempts with a 2-second delay between each.
+- Batch size: controlled by PIPELINE_BATCH_SIZE (default: 30).
+- Retry logic: up to PIPELINE_MAX_RETRIES attempts with PIPELINE_RETRY_DELAY seconds delay.
 """
 
 import csv
@@ -21,14 +20,17 @@ import time
 import logging
 import requests
 
+# ── Load .env file (no-op if env vars are already set by Docker) ──────────────
+from dotenv import load_dotenv
+load_dotenv()
+
 logger = logging.getLogger(__name__)
 
-# Resolved from environment so Docker service-name routing works correctly.
-# Override via:  BACKEND_URL=http://backend:8080/students/bulk
-API_URL     = os.environ.get("BACKEND_URL", "http://backend:8080/students/bulk")
-BATCH_SIZE  = 30      # records per request
-MAX_RETRIES = 3       # number of additional attempts after first failure
-RETRY_DELAY = 2.0     # seconds to wait between retries
+# ── Configuration from environment variables ──────────────────────────────────
+API_URL     = os.environ.get("BACKEND_URL",         "http://backend:8080/students/bulk")
+BATCH_SIZE  = int(os.environ.get("PIPELINE_BATCH_SIZE",  "30"))
+MAX_RETRIES = int(os.environ.get("PIPELINE_MAX_RETRIES", "3"))
+RETRY_DELAY = float(os.environ.get("PIPELINE_RETRY_DELAY", "2.0"))
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────

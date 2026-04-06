@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment Variables ###
+# Never commit real secrets – use .env.example as a template
+.env
+.env.local
+.env.*.local
+# Keep the safe example template committed
+!.env.example

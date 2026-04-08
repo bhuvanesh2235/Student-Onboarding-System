@@ -47,3 +47,13 @@
 2026-03-29 22:49:01  INFO      main – [STEP 2] CSV ready at: data/input/students.csv
 2026-03-29 22:49:01  INFO      main – [STEP 3] Waiting for watcher to detect and process the file …
 2026-03-29 22:50:01  ERROR     main – Pipeline did not complete within 60 seconds.
+2026-04-08 15:54:05  INFO      main – ============================================================
+2026-04-08 15:54:05  INFO      main –   Automated Student Onboarding Engine  –  Starting
+2026-04-08 15:54:05  INFO      main – ============================================================
+2026-04-08 15:54:05  INFO      main – [STEP 1] Starting directory watcher on data/input/ …
+2026-04-08 15:54:05  INFO      watcher – Watchdog observer started → monitoring 'data/input'
+2026-04-08 15:54:06  INFO      main – [STEP 2] Generating student CSV …
+2026-04-08 15:54:06  INFO      generator – CSV generated → data/input/students.csv  |  total=120  valid≈96  invalid≈18  duplicates≈6
+2026-04-08 15:54:06  INFO      main – [STEP 2] CSV ready at: data/input/students.csv
+2026-04-08 15:54:06  INFO      main – [STEP 3] Waiting for watcher to detect and process the file …
+2026-04-08 15:55:06  ERROR     main – Pipeline did not complete within 60 seconds.

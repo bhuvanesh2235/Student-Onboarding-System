@@ -37,10 +37,10 @@ _INVALID_RATIO      = float(os.environ.get("PIPELINE_INVALID_RATIO",  "0.15"))
 # ── ensure src/ is on the import path ─────────────────────────────────────────
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from generator import generate_students
-from validator  import validate_csv
-from sender     import send_valid_data
-from watcher    import watch
+from src.generator import generate_students
+from src.validator  import validate_csv
+from src.sender     import send_valid_data
+from src.watcher    import watch
 
 # ── logging setup ─────────────────────────────────────────────────────────────
 logging.basicConfig(

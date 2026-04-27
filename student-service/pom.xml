@@ -64,6 +64,28 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- BCrypt (no full Spring Security filter chain) -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
+
+		<!-- Selenium Java (UI tests) -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.20.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- WebDriverManager – auto-downloads ChromeDriver -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>5.8.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

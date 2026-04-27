@@ -1,5 +1,7 @@
 package com.bhuvanesh.onboarding.student_service.config;
 
+import com.bhuvanesh.onboarding.student_service.auth.exception.DuplicateEmailException;
+import com.bhuvanesh.onboarding.student_service.auth.exception.InvalidCredentialsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +50,20 @@ public class GlobalExceptionHandler {
         String msg = "Invalid value '" + ex.getValue() + "' for parameter '" + ex.getName() + "'";
         log.warn("Type mismatch: {}", msg);
         return buildResponse(HttpStatus.BAD_REQUEST, msg, null);
+    }
+
+    // ─── Duplicate email on signup ────────────────────────────────────────────
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<Map<String, Object>> handleDuplicateEmail(DuplicateEmailException ex) {
+        log.warn("Duplicate email: {}", ex.getMessage());
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), null);
+    }
+
+    // ─── Invalid credentials on login ─────────────────────────────────────────
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidCredentials(InvalidCredentialsException ex) {
+        log.warn("Invalid credentials: {}", ex.getMessage());
+        return buildResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), null);
     }
 
     // ─── Application / business logic errors ─────────────────────────────────

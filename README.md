@@ -20,7 +20,12 @@ It consists of:
 ![Student Onboarding System Output](./Student%20Onboarding%20System%20Output.png)
 
 ### 🔐 Authentication UI
-![Signup Page](./Signup.png)  
+![Signup Page](./Signup.png)
+
+
+
+
+
 ![Login Page](./Login.png)
 
 ---
